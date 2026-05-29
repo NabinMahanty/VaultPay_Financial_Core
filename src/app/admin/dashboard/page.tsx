@@ -4,19 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { Invoice, ClientProfile } from "@/lib/mockDb";
-import { 
-  DollarSign, 
-  Clock, 
-  CheckCircle, 
-  Plus, 
-  Search, 
-  Building, 
-  User, 
-  LogOut, 
-  Loader, 
-  ArrowRight, 
-  Calendar 
-} from "@/components/Icons";
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
@@ -259,8 +246,7 @@ export default function AdminDashboard() {
       <header
         style={{
           borderBottom: "1px solid var(--border-card)",
-          background: "rgba(10, 10, 15, 0.65)",
-          backdropFilter: "blur(16px)",
+          background: "var(--bg-secondary)",
           position: "sticky",
           top: 0,
           zIndex: 100,
@@ -268,7 +254,7 @@ export default function AdminDashboard() {
       >
         <div
           style={{
-            maxWidth: "1200px",
+            maxWidth: "1100px",
             margin: "0 auto",
             padding: "1rem 1.5rem",
             display: "flex",
@@ -276,58 +262,26 @@ export default function AdminDashboard() {
             alignItems: "center",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.85rem" }}>
-            <div 
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "8px",
-                background: "linear-gradient(135deg, var(--color-primary), #6d28d9)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 4px 12px var(--color-primary-glow)"
-              }}
-            >
-              <Building size={18} style={{ color: "white" }} />
-            </div>
-            <div>
-              <h2 style={{ fontSize: "1.05rem", fontWeight: 700, letterSpacing: "-0.01em", color: "var(--text-primary)" }}>
-                VaultPay Core
-              </h2>
-              <span style={{ fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.08em", color: "var(--text-muted)", display: "block", marginTop: "1px" }}>
-                NEXUS COMPLIANCE LEDGER
-              </span>
-            </div>
+          <div>
+            <h2 style={{ fontSize: "1.05rem", fontWeight: 600, color: "var(--text-primary)" }}>
+              VaultPay
+            </h2>
+            <span style={{ fontSize: "0.68rem", fontWeight: 500, color: "var(--text-muted)", display: "block", marginTop: "1px" }}>
+              Nexus Corporate Services
+            </span>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.6rem",
-                background: "rgba(255, 255, 255, 0.03)",
-                border: "1px solid var(--border-card)",
-                padding: "0.45rem 1rem",
-                borderRadius: "12px",
-              }}
-            >
-              <span style={{ display: "flex", color: "var(--color-primary-hover)" }}>
-                <User size={16} />
-              </span>
-              <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-primary)" }}>
-                {user?.name || "Evelyn Croft"} (CFO)
-              </span>
-            </div>
+            <span style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+              {user?.name || "Evelyn Croft"}
+            </span>
 
             <button
               onClick={handleLogout}
               className="btn btn-secondary"
-              style={{ padding: "0.45rem 1rem", fontSize: "0.85rem", borderRadius: "12px", gap: "0.4rem" }}
+              style={{ padding: "0.4rem 0.8rem", fontSize: "0.8rem", borderRadius: "6px" }}
             >
-              <LogOut size={15} />
-              <span>Disconnect</span>
+              <span>Log Out</span>
             </button>
           </div>
         </div>
@@ -341,27 +295,26 @@ export default function AdminDashboard() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            marginBottom: "2.5rem",
+            marginBottom: "2rem",
             flexWrap: "wrap",
-            gap: "1.25rem",
+            gap: "1rem",
           }}
         >
           <div>
-            <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.03em" }}>
+            <h1 style={{ fontSize: "1.75rem", fontWeight: 600 }}>
               Administrative Ledger
             </h1>
-            <p style={{ fontSize: "0.95rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
-              Generate client invoices, track collections, and verify financial compliance.
+            <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
+              Review client statements and generate compliance invoices.
             </p>
           </div>
 
           <button
             onClick={() => setIsModalOpen(true)}
             className="btn btn-primary"
-            style={{ borderRadius: "12px", gap: "0.5rem", padding: "0.8rem 1.6rem" }}
+            style={{ borderRadius: "6px", padding: "0.6rem 1.2rem" }}
           >
-            <Plus size={18} />
-            <span>Generate Invoice</span>
+            <span>Create Invoice</span>
           </button>
         </div>
 
@@ -370,95 +323,47 @@ export default function AdminDashboard() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "1.5rem",
-            marginBottom: "2.5rem",
+            gap: "1.25rem",
+            marginBottom: "2rem",
           }}
         >
-          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-                Total Revenue (Collected)
-              </span>
-              <div 
-                style={{ 
-                  width: "32px", 
-                  height: "32px", 
-                  borderRadius: "8px", 
-                  background: "rgba(16, 185, 129, 0.1)", 
-                  display: "flex", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  color: "var(--color-success)"
-                }}
-              >
-                <CheckCircle size={18} />
-              </div>
-            </div>
-            <h2 style={{ fontSize: "2.25rem", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <span style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-muted)" }}>
+              Total Collected
+            </span>
+            <h2 style={{ fontSize: "2rem", fontWeight: 600, color: "var(--text-primary)" }}>
               ${totalRevenue.toLocaleString()}
             </h2>
             <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
-              Cleared through Stripe Network
+              Cleared statements
             </span>
           </div>
 
-          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-                Outstanding Balance
-              </span>
-              <div 
-                style={{ 
-                  width: "32px", 
-                  height: "32px", 
-                  borderRadius: "8px", 
-                  background: "rgba(245, 158, 11, 0.1)", 
-                  display: "flex", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  color: "var(--color-pending)"
-                }}
-              >
-                <Clock size={18} />
-              </div>
-            </div>
-            <h2 style={{ fontSize: "2.25rem", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <span style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-muted)" }}>
+              Outstanding Balance
+            </span>
+            <h2 style={{ fontSize: "2rem", fontWeight: 600, color: "var(--text-primary)" }}>
               ${totalOutstanding.toLocaleString()}
             </h2>
             <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
-              Pending + Overdue accounts
+              Pending and overdue accounts
             </span>
           </div>
 
-          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <span style={{ fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--text-muted)" }}>
-                Accounts Receivable Rate
-              </span>
-              <div 
-                style={{ 
-                  width: "32px", 
-                  height: "32px", 
-                  borderRadius: "8px", 
-                  background: "rgba(139, 92, 246, 0.1)", 
-                  display: "flex", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  color: "var(--color-primary-hover)"
-                }}
-              >
-                <DollarSign size={18} />
-              </div>
-            </div>
-            <h2 style={{ fontSize: "2.25rem", fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
+          <div className="glass-card" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <span style={{ fontSize: "0.75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--text-muted)" }}>
+              Receivable Rate
+            </span>
+            <h2 style={{ fontSize: "2rem", fontWeight: 600, color: "var(--text-primary)" }}>
               {collectionRate}%
             </h2>
             <div
               style={{
                 width: "100%",
-                height: "6px",
+                height: "4px",
                 background: "rgba(255, 255, 255, 0.05)",
-                borderRadius: "3px",
+                borderRadius: "2px",
                 marginTop: "0.25rem",
                 overflow: "hidden",
               }}
@@ -467,66 +372,44 @@ export default function AdminDashboard() {
                 style={{
                   height: "100%",
                   width: `${collectionRate}%`,
-                  background: "linear-gradient(90deg, #8b5cf6, #10b981)",
-                  borderRadius: "3px",
+                  background: "var(--text-primary)",
+                  borderRadius: "2px",
                 }}
               />
             </div>
           </div>
         </div>
 
-        {/* Dashboard Error Alert */}
-        {error && (
-          <div
-            style={{
-              padding: "1rem",
-              background: "var(--color-danger-bg)",
-              border: "1px solid var(--color-danger-border)",
-              borderRadius: "12px",
-              color: "var(--color-danger)",
-              marginBottom: "1.5rem",
-              fontWeight: 500
-            }}
-          >
-            <span>{error}</span>
-          </div>
-        )}
-
         {/* Filters and Search toolbar */}
         <div
           className="glass-card"
           style={{
-            padding: "1rem 1.25rem",
-            marginBottom: "2rem",
+            padding: "1rem",
+            marginBottom: "1.5rem",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            gap: "1.25rem",
-            borderRadius: "16px"
+            gap: "1rem",
+            borderRadius: "8px"
           }}
         >
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: "0.75rem",
-              background: "rgba(255, 255, 255, 0.02)",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
-              borderRadius: "10px",
-              padding: "0.5rem 1rem",
+              background: "#09090b",
+              border: "1px solid var(--border-card)",
+              borderRadius: "6px",
+              padding: "0.5rem 0.75rem",
               minWidth: "280px",
               width: "100%",
-              maxWidth: "380px",
-              transition: "border-color 0.2s ease"
+              maxWidth: "340px",
             }}
           >
-            <span style={{ display: "flex", color: "var(--text-muted)" }}>
-              <Search size={16} />
-            </span>
             <input
               type="text"
-              placeholder="Search by invoice ID, client name..."
+              placeholder="Search invoices..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
@@ -540,19 +423,18 @@ export default function AdminDashboard() {
             />
           </div>
 
-          <div style={{ display: "flex", gap: "0.4rem", background: "rgba(255, 255, 255, 0.03)", padding: "0.3rem", borderRadius: "10px", border: "1px solid rgba(255, 255, 255, 0.05)" }}>
+          <div style={{ display: "flex", gap: "0.25rem" }}>
             {(["All", "Paid", "Pending", "Overdue"] as const).map((filter) => (
               <button
                 key={filter}
                 onClick={() => setStatusFilter(filter)}
                 className="btn"
                 style={{
-                  padding: "0.45rem 1.1rem",
+                  padding: "0.4rem 0.9rem",
                   fontSize: "0.85rem",
-                  borderRadius: "8px",
-                  background: statusFilter === filter ? "var(--color-primary)" : "transparent",
-                  color: statusFilter === filter ? "#ffffff" : "var(--text-secondary)",
-                  boxShadow: statusFilter === filter ? "0 4px 10px rgba(139, 92, 246, 0.25)" : "none"
+                  borderRadius: "6px",
+                  background: statusFilter === filter ? "var(--border-card)" : "transparent",
+                  color: statusFilter === filter ? "var(--text-primary)" : "var(--text-secondary)",
                 }}
               >
                 {filter}
@@ -563,24 +445,22 @@ export default function AdminDashboard() {
 
         {/* Ledger Table */}
         {loading ? (
-          <div className="glass-card" style={{ textAlign: "center", padding: "4rem 0", borderStyle: "dashed" }}>
-            <Loader size={24} className="animate-spin" style={{ color: "var(--color-primary)", marginBottom: "1rem" }} />
-            <p style={{ color: "var(--text-secondary)", fontWeight: 500 }}>Decrypting secure ledger records...</p>
+          <div className="glass-card" style={{ textAlign: "center", padding: "3rem 0" }}>
+            <p style={{ color: "var(--text-secondary)" }}>Loading ledger records...</p>
           </div>
         ) : filteredInvoices.length === 0 ? (
           <div
             className="glass-card"
             style={{
               textAlign: "center",
-              padding: "5rem 2rem",
+              padding: "4rem 2rem",
               borderStyle: "dashed",
-              borderColor: "rgba(255, 255, 255, 0.1)",
+              borderColor: "var(--border-card)",
             }}
           >
-            <Building size={36} style={{ color: "var(--text-muted)", marginBottom: "1rem" }} />
-            <h3 style={{ fontSize: "1.2rem", fontWeight: 700 }}>No invoice records found</h3>
-            <p style={{ fontSize: "0.9rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
-              Try broadening your filters or create a new invoice to get started.
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 600 }}>No invoices found</h3>
+            <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
+              No statements match the active filter criteria.
             </p>
           </div>
         ) : (
@@ -590,8 +470,8 @@ export default function AdminDashboard() {
                 <tr>
                   <th>Invoice ID</th>
                   <th>Client</th>
-                  <th>Date</th>
-                  <th>Due Date</th>
+                  <th>Issued</th>
+                  <th>Due</th>
                   <th>Amount</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -600,20 +480,20 @@ export default function AdminDashboard() {
               <tbody>
                 {filteredInvoices.map((inv) => (
                   <tr key={inv.id}>
-                    <td style={{ fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--color-primary-hover)", fontSize: "0.9rem" }}>
+                    <td style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem", color: "var(--text-primary)" }}>
                       {inv.id}
                     </td>
                     <td>
                       <div>
-                        <div style={{ fontWeight: 600, color: "var(--text-primary)" }}>{inv.clientName}</div>
-                        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "1px" }}>
+                        <div style={{ fontWeight: 500, color: "var(--text-primary)" }}>{inv.clientName}</div>
+                        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
                           {inv.clientEmail}
                         </div>
                       </div>
                     </td>
-                    <td style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>{inv.issueDate}</td>
-                    <td style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>{inv.dueDate}</td>
-                    <td style={{ fontWeight: 700, color: "var(--text-primary)" }}>
+                    <td style={{ color: "var(--text-secondary)", fontSize: "0.85rem" }}>{inv.issueDate}</td>
+                    <td style={{ color: "var(--text-secondary)", fontSize: "0.85rem" }}>{inv.dueDate}</td>
+                    <td style={{ fontWeight: 600, color: "var(--text-primary)" }}>
                       ${inv.amount.toLocaleString()}
                     </td>
                     <td>
@@ -633,14 +513,12 @@ export default function AdminDashboard() {
                         onClick={() => router.push(`/invoices/${inv.id}`)}
                         className="btn btn-secondary"
                         style={{
-                          padding: "0.4rem 0.85rem",
+                          padding: "0.35rem 0.75rem",
                           fontSize: "0.8rem",
-                          borderRadius: "8px",
-                          gap: "0.3rem",
+                          borderRadius: "6px",
                         }}
                       >
-                        <span>Details</span>
-                        <ArrowRight size={12} />
+                        View
                       </button>
                     </td>
                   </tr>
@@ -651,14 +529,13 @@ export default function AdminDashboard() {
         )}
       </main>
 
-      {/* Create Invoice Modal Drawer Overlay */}
+      {/* Create Invoice Modal Overlay */}
       {isModalOpen && (
         <div
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(3, 3, 6, 0.75)",
-            backdropFilter: "blur(8px)",
+            background: "rgba(0, 0, 0, 0.6)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -669,42 +546,33 @@ export default function AdminDashboard() {
           <div
             className="glass-card"
             style={{
-              maxWidth: "680px",
+              maxWidth: "600px",
               width: "100%",
-              maxHeight: "90vh",
+              maxHeight: "85vh",
               overflowY: "auto",
-              padding: "2.5rem",
-              borderColor: "rgba(255, 255, 255, 0.1)",
-              borderRadius: "24px"
+              padding: "2rem",
+              background: "var(--bg-secondary)"
             }}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>
-                <h2 style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Generate Client Invoice</h2>
+                <h2 style={{ fontSize: "1.25rem", fontWeight: 600 }}>Create Invoice</h2>
                 <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
-                  Fill in items and dates. Invoices are stored in compliance ledger.
+                  Fill in client statement parameters to publish a new invoice.
                 </p>
               </div>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="btn btn-secondary"
-                style={{ padding: "0.45rem 1rem", borderRadius: "10px" }}
-              >
-                Cancel
-              </button>
             </div>
 
             {modalError && (
               <div
                 style={{
-                  padding: "0.8rem 1rem",
+                  padding: "0.75rem 1rem",
                   background: "var(--color-danger-bg)",
                   border: "1px solid var(--color-danger-border)",
-                  borderRadius: "10px",
+                  borderRadius: "6px",
                   color: "var(--color-danger)",
                   fontSize: "0.85rem",
-                  marginBottom: "1.5rem",
-                  fontWeight: 500
+                  marginBottom: "1.25rem"
                 }}
               >
                 <span>{modalError}</span>
@@ -714,24 +582,24 @@ export default function AdminDashboard() {
             <form onSubmit={handleCreateInvoice}>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                 <div className="form-group">
-                  <label className="form-label">Client Workspace Selection</label>
+                  <label className="form-label">Client Workspace</label>
                   <select
                     className="form-select"
                     value={selectedClientId}
                     onChange={(e) => setSelectedClientId(e.target.value)}
                   >
-                    <option value="" style={{ background: "var(--bg-secondary)" }}>-- Choose Client --</option>
+                    <option value="" style={{ background: "var(--bg-secondary)" }}>-- Select --</option>
                     {clients.map((c) => (
                       <option key={c.id} value={c.id} style={{ background: "var(--bg-secondary)" }}>
                         {c.name}
                       </option>
                     ))}
-                    <option value="new" style={{ background: "var(--bg-secondary)" }}>+ Dynamic Client</option>
+                    <option value="new" style={{ background: "var(--bg-secondary)" }}>+ New Client</option>
                   </select>
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Corporate Client Name</label>
+                  <label className="form-label">Client Name</label>
                   <input
                     type="text"
                     className="form-input"
@@ -744,7 +612,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Billing Officer Email</label>
+                <label className="form-label">Billing Email</label>
                 <input
                   type="email"
                   className="form-input"
@@ -756,11 +624,11 @@ export default function AdminDashboard() {
               </div>
 
               <div className="form-group">
-                <label className="form-label">Corporate Registered Address</label>
+                <label className="form-label">Registered Address</label>
                 <input
                   type="text"
                   className="form-input"
-                  placeholder="Street Address, City, ZIP, Country"
+                  placeholder="Street, City, ZIP, Country"
                   value={clientAddress}
                   onChange={(e) => setClientAddress(e.target.value)}
                   disabled={selectedClientId !== "" && selectedClientId !== "new"}
@@ -769,7 +637,7 @@ export default function AdminDashboard() {
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                 <div className="form-group">
-                  <label className="form-label">Date of Issue</label>
+                  <label className="form-label">Issue Date</label>
                   <input
                     type="date"
                     className="form-input"
@@ -779,7 +647,7 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Compliance Due Date</label>
+                  <label className="form-label">Due Date</label>
                   <input
                     type="date"
                     className="form-input"
@@ -790,27 +658,26 @@ export default function AdminDashboard() {
               </div>
 
               {/* Line Items */}
-              <div style={{ margin: "2rem 0" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <div style={{ margin: "1.5rem 0" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
                   <label className="form-label" style={{ margin: 0 }}>Itemized Charges</label>
                   <button
                     type="button"
                     onClick={handleAddItemLine}
                     className="btn btn-secondary"
-                    style={{ padding: "0.4rem 0.8rem", fontSize: "0.8rem", borderRadius: "8px", gap: "0.3rem" }}
+                    style={{ padding: "0.35rem 0.75rem", fontSize: "0.8rem", borderRadius: "6px" }}
                   >
-                    <Plus size={14} />
-                    <span>Line Item</span>
+                    <span>Add Item</span>
                   </button>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                   {items.map((item, index) => (
                     <div key={index} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-end" }}>
                       <div className="form-group" style={{ flex: 3, margin: 0 }}>
                         <input
                           type="text"
-                          placeholder="Audit description / consultation scope"
+                          placeholder="Description"
                           className="form-input"
                           value={item.description}
                           onChange={(e) => handleItemChange(index, "description", e.target.value)}
@@ -826,7 +693,7 @@ export default function AdminDashboard() {
                           onChange={(e) => handleItemChange(index, "quantity", e.target.value)}
                         />
                       </div>
-                      <div className="form-group" style={{ width: "120px", margin: 0 }}>
+                      <div className="form-group" style={{ width: "110px", margin: 0 }}>
                         <input
                           type="number"
                           placeholder="Rate ($)"
@@ -843,13 +710,11 @@ export default function AdminDashboard() {
                         disabled={items.length === 1}
                         className="btn btn-secondary"
                         style={{
-                          padding: "0.75rem",
-                          border: "1px solid var(--color-danger-border)",
-                          color: "var(--color-danger)",
-                          background: "transparent",
-                          height: "44px",
-                          width: "44px",
-                          borderRadius: "10px",
+                          padding: "0.6rem",
+                          border: "1px solid var(--border-card)",
+                          height: "38px",
+                          width: "38px",
+                          borderRadius: "6px",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -864,37 +729,32 @@ export default function AdminDashboard() {
 
               <div
                 style={{
-                  borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                  paddingTop: "1.75rem",
+                  borderTop: "1px solid var(--border-card)",
+                  paddingTop: "1.25rem",
                   marginTop: "1.5rem",
                   display: "flex",
                   justifyContent: "flex-end",
-                  gap: "0.75rem",
+                  gap: "0.5rem",
                 }}
               >
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className="btn btn-secondary"
-                  style={{ borderRadius: "10px" }}
+                  style={{ borderRadius: "6px" }}
                 >
-                  Close
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={modalLoading}
                   className="btn btn-primary"
-                  style={{ gap: "0.5rem", borderRadius: "10px" }}
+                  style={{ borderRadius: "6px" }}
                 >
                   {modalLoading ? (
-                    <>
-                      <Loader size={16} className="animate-spin" />
-                      <span>Writing to Ledger...</span>
-                    </>
+                    <span>Creating...</span>
                   ) : (
-                    <>
-                      <span>Release Invoice</span>
-                    </>
+                    <span>Create Invoice</span>
                   )}
                 </button>
               </div>

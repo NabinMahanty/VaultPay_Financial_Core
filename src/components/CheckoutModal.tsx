@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { CreditCard, Lock, User, CheckCircle, Loader } from "@/components/Icons";
 
 interface CheckoutModalProps {
   invoiceId: string;
@@ -84,11 +83,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
     setError("");
     setIsProcessing(true);
-    setStatusMessage("1. Generating Stripe Token & Verifying Handshake...");
+    setStatusMessage("Verifying card parameters...");
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
-      setStatusMessage("2. Relaying payload to secure banking network...");
+      setStatusMessage("Authorizing payment amount...");
 
       const savedSession = localStorage.getItem("vaultpay_session");
       const userSession = savedSession ? JSON.parse(savedSession) : null;
@@ -97,7 +96,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         throw new Error("Authentication session expired.");
       }
 
-      setStatusMessage("3. Performing Zero-Trust Identity check & settling funds...");
+      setStatusMessage("Clearing transaction...");
       const res = await fetch("/api/pay", {
         method: "POST",
         headers: {
@@ -116,7 +115,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       }
 
       await res.json();
-      setStatusMessage("4. Funds cleared! Finalizing receipt ledger...");
+      setStatusMessage("Finalizing invoice record...");
       await new Promise((resolve) => setTimeout(resolve, 600));
 
       setSuccess(true);
@@ -136,8 +135,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(3, 3, 6, 0.8)",
-        backdropFilter: "blur(8px)",
+        background: "rgba(0, 0, 0, 0.6)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -148,26 +146,27 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       <div
         className="glass-card"
         style={{
-          maxWidth: "460px",
+          maxWidth: "420px",
           width: "100%",
-          padding: "2.5rem",
-          borderColor: success ? "var(--color-success)" : "rgba(255, 255, 255, 0.1)",
+          padding: "2rem",
+          borderColor: "var(--border-card)",
           position: "relative",
-          borderRadius: "24px"
+          background: "var(--bg-secondary)",
+          borderRadius: "12px"
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
           <div>
-            <h2 style={{ fontSize: "1.3rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Secure Card Payment</h2>
-            <p style={{ fontSize: "0.82rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
-              Powered by Stripe compliance layer
+            <h2 style={{ fontSize: "1.2rem", fontWeight: 600 }}>Pay Invoice</h2>
+            <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.2rem" }}>
+              Secure checkout gateway
             </p>
           </div>
           {!isProcessing && !success && (
             <button
               onClick={onClose}
               className="btn btn-secondary"
-              style={{ padding: "0.4rem 0.8rem", borderRadius: "8px", fontSize: "0.8rem" }}
+              style={{ padding: "0.35rem 0.75rem", borderRadius: "6px", fontSize: "0.8rem" }}
             >
               Cancel
             </button>
@@ -177,14 +176,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         {error && (
           <div
             style={{
-              padding: "0.8rem 1rem",
+              padding: "0.75rem 1rem",
               background: "var(--color-danger-bg)",
               border: "1px solid var(--color-danger-border)",
-              borderRadius: "10px",
+              borderRadius: "6px",
               color: "var(--color-danger)",
               fontSize: "0.85rem",
               marginBottom: "1.25rem",
-              fontWeight: 500
             }}
           >
             <span>{error}</span>
@@ -195,31 +193,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <div
             style={{
               textAlign: "center",
-              padding: "2rem 0",
+              padding: "1.5rem 0",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: "1.25rem",
+              gap: "1rem",
             }}
           >
-            <div 
-              style={{ 
-                width: "48px", 
-                height: "48px", 
-                borderRadius: "50%", 
-                background: "rgba(16, 185, 129, 0.1)", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                color: "var(--color-success)"
-              }}
-            >
-              <CheckCircle size={32} />
-            </div>
             <div>
-              <h3 style={{ color: "var(--color-success)", fontSize: "1.2rem", fontWeight: 700 }}>Transaction Confirmed</h3>
-              <p style={{ fontSize: "0.9rem", color: "var(--text-secondary)", marginTop: "0.35rem", lineHeight: "1.5" }}>
-                Stripe webhook has triggered and marked invoice <strong style={{ color: "var(--text-primary)" }}>{invoiceId}</strong> as Paid.
+              <h3 style={{ color: "var(--color-success)", fontSize: "1.1rem", fontWeight: 600 }}>Payment Succeeded</h3>
+              <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", marginTop: "0.35rem", lineHeight: "1.4" }}>
+                Invoice {invoiceId} has been successfully settled.
               </p>
             </div>
           </div>
@@ -227,10 +211,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           <form onSubmit={handleSubmit} className="stripe-form-container">
             <div
               style={{
-                background: "rgba(255, 255, 255, 0.02)",
-                border: "1px solid rgba(255, 255, 255, 0.06)",
-                padding: "1rem",
-                borderRadius: "12px",
+                background: "#09090b",
+                border: "1px solid var(--border-card)",
+                padding: "0.85rem 1rem",
+                borderRadius: "6px",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -238,21 +222,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               }}
             >
               <div>
-                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", display: "block" }}>Amount to Settle</span>
-                <strong style={{ fontSize: "1.25rem", fontWeight: 800, color: "var(--text-primary)" }}>${amount.toLocaleString()} USD</strong>
+                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", display: "block" }}>Amount to Pay</span>
+                <strong style={{ fontSize: "1.15rem", fontWeight: 600, color: "var(--text-primary)" }}>${amount.toLocaleString()} USD</strong>
               </div>
               <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textAlign: "right" }}>
                 <span>Invoice: </span>
-                <div style={{ fontFamily: "var(--font-mono)", color: "var(--color-primary-hover)", fontWeight: 600 }}>{invoiceId}</div>
+                <div style={{ fontFamily: "var(--font-mono)", color: "var(--text-primary)" }}>{invoiceId}</div>
               </div>
             </div>
 
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label className="form-label">Card Number</label>
               <div className="stripe-input-wrapper">
-                <span style={{ display: "flex", color: "var(--text-muted)" }}>
-                  <CreditCard size={18} />
-                </span>
                 <input
                   type="text"
                   className="stripe-input"
@@ -275,17 +256,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     value={expiry}
                     onChange={handleExpiryChange}
                     disabled={isProcessing}
-                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.95rem" }}
+                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem" }}
                   />
                 </div>
               </div>
 
               <div className="form-group" style={{ marginBottom: 0 }}>
-                <label className="form-label">Security Code (CVC)</label>
+                <label className="form-label">CVC</label>
                 <div className="stripe-input-wrapper">
-                  <span style={{ display: "flex", color: "var(--text-muted)" }}>
-                    <Lock size={16} />
-                  </span>
                   <input
                     type="text"
                     className="stripe-input"
@@ -293,22 +271,19 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     value={cvc}
                     onChange={handleCvcChange}
                     disabled={isProcessing}
-                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.95rem" }}
+                    style={{ fontFamily: "var(--font-mono)", fontSize: "0.85rem" }}
                   />
                 </div>
               </div>
             </div>
 
             <div className="form-group" style={{ marginBottom: "0.75rem" }}>
-              <label className="form-label">Cardholder Full Name</label>
+              <label className="form-label">Cardholder Name</label>
               <div className="stripe-input-wrapper">
-                <span style={{ display: "flex", color: "var(--text-muted)" }}>
-                  <User size={16} />
-                </span>
                 <input
                   type="text"
                   className="stripe-input"
-                  placeholder="Evelyn Croft"
+                  placeholder="Cardholder Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isProcessing}
@@ -319,20 +294,16 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             {isProcessing && (
               <div
                 style={{
-                  background: "rgba(139, 92, 246, 0.08)",
-                  border: "1px solid rgba(139, 92, 246, 0.15)",
-                  borderRadius: "10px",
-                  padding: "0.8rem 1rem",
+                  background: "rgba(255, 255, 255, 0.03)",
+                  border: "1px solid var(--border-card)",
+                  borderRadius: "6px",
+                  padding: "0.6rem 0.85rem",
                   fontSize: "0.8rem",
-                  color: "var(--color-primary-hover)",
+                  color: "var(--text-secondary)",
                   marginBottom: "0.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  fontWeight: 500
+                  textAlign: "center"
                 }}
               >
-                <Loader size={16} className="animate-spin" />
                 <span>{statusMessage}</span>
               </div>
             )}
@@ -341,17 +312,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               type="submit"
               disabled={isProcessing}
               className="btn btn-primary"
-              style={{ width: "100%", height: "48px", gap: "0.5rem", borderRadius: "12px" }}
+              style={{ width: "100%", height: "42px", borderRadius: "6px" }}
             >
               {isProcessing ? (
-                <span>Settling transaction... DO NOT REFRESH</span>
+                <span>Processing...</span>
               ) : (
-                <span>Submit Payment for ${amount.toLocaleString()}</span>
+                <span>Submit Payment</span>
               )}
             </button>
 
             <p style={{ fontSize: "0.72rem", color: "var(--text-muted)", textAlign: "center", marginTop: "0.5rem" }}>
-              PCI-DSS Compliant. Fully encrypted connection.
+              Fully encrypted secure transaction.
             </p>
           </form>
         )}
