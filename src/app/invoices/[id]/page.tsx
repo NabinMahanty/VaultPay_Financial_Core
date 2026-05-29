@@ -6,16 +6,6 @@ import { useAuth } from "@/context/AuthContext";
 import { CheckoutModal } from "@/components/CheckoutModal";
 import { Confetti } from "@/components/Confetti";
 import { Invoice } from "@/lib/mockDb";
-import { 
-  ArrowLeft, 
-  Download, 
-  CreditCard, 
-  Building, 
-  Calendar, 
-  DollarSign, 
-  CheckCircle, 
-  Shield 
-} from "@/components/Icons";
 
 type Props = {
   params: Promise<{ id: string }>
@@ -118,9 +108,7 @@ export default function InvoiceDetailPage(props: Props) {
   if (loading) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
-        <div style={{ textAlign: "center" }}>
-          <p>Decrypting invoice file...</p>
-        </div>
+        <p style={{ color: "var(--text-secondary)" }}>Loading invoice details...</p>
       </div>
     );
   }
@@ -128,10 +116,10 @@ export default function InvoiceDetailPage(props: Props) {
   if (error || !invoice) {
     return (
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh", padding: "1.5rem" }}>
-        <div className="glass-card" style={{ maxWidth: "480px", width: "100%", textAlign: "center", padding: "2.5rem" }}>
-          <h2 style={{ color: "var(--color-danger)" }}>Invoice Access Violation</h2>
+        <div className="glass-card" style={{ maxWidth: "480px", width: "100%", textAlign: "center", padding: "2rem" }}>
+          <h2>Access Violation</h2>
           <p style={{ margin: "0.75rem 0 1.5rem 0", color: "var(--text-secondary)" }}>{error || "Invoice record not found."}</p>
-          <button onClick={handleBack} className="btn btn-secondary" style={{ width: "100%", borderRadius: "10px" }}>
+          <button onClick={handleBack} className="btn btn-secondary" style={{ width: "100%", borderRadius: "6px" }}>
             Return to Dashboard
           </button>
         </div>
@@ -145,7 +133,7 @@ export default function InvoiceDetailPage(props: Props) {
     <div style={{ minHeight: "100vh", padding: "3rem 1.5rem" }}>
       <Confetti active={showConfetti} onComplete={() => setShowConfetti(false)} />
 
-      <div style={{ maxWidth: "840px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto" }}>
         {/* Navigation back and quick actions */}
         <div
           className="no-print"
@@ -159,30 +147,27 @@ export default function InvoiceDetailPage(props: Props) {
           <button
             onClick={handleBack}
             className="btn btn-secondary"
-            style={{ borderRadius: "10px", padding: "0.55rem 1.1rem", gap: "0.4rem" }}
+            style={{ borderRadius: "6px", padding: "0.5rem 1rem" }}
           >
-            <ArrowLeft size={16} />
-            <span>Dashboard</span>
+            <span>Back</span>
           </button>
 
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
             <button
               onClick={handleDownloadPDF}
               disabled={isDownloading}
               className="btn btn-secondary"
-              style={{ gap: "0.4rem", borderRadius: "10px" }}
+              style={{ borderRadius: "6px" }}
             >
-              <Download size={16} />
-              <span>Download PDF</span>
+              <span>Print Invoice</span>
             </button>
 
             {invoice.status !== "Paid" && user?.role === "client" && (
               <button
                 onClick={() => setIsCheckoutOpen(true)}
                 className="btn btn-primary"
-                style={{ background: "var(--color-success)", boxShadow: "0 4px 14px rgba(16, 185, 129, 0.2)", gap: "0.4rem", borderRadius: "10px" }}
+                style={{ borderRadius: "6px" }}
               >
-                <CreditCard size={16} />
                 <span>Pay Invoice</span>
               </button>
             )}
@@ -193,11 +178,12 @@ export default function InvoiceDetailPage(props: Props) {
         <div
           className="glass-card"
           style={{
-            padding: "3.5rem",
+            padding: "3rem",
             position: "relative",
-            borderColor: "rgba(255, 255, 255, 0.08)",
+            borderColor: "var(--border-card)",
             overflow: "hidden",
-            borderRadius: "24px"
+            borderRadius: "12px",
+            background: "var(--bg-secondary)"
           }}
         >
           {/* PAID STAMP */}
@@ -223,20 +209,16 @@ export default function InvoiceDetailPage(props: Props) {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "flex-start",
-              borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
-              paddingBottom: "2.5rem",
-              marginBottom: "2.5rem",
+              borderBottom: "1px solid var(--border-card)",
+              paddingBottom: "2rem",
+              marginBottom: "2rem",
             }}
           >
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.6rem" }}>
-                <Shield size={20} style={{ color: "var(--color-primary-hover)" }} />
-                <h3 style={{ fontSize: "1.2rem", fontWeight: 800, letterSpacing: "-0.01em", color: "var(--text-primary)" }}>
-                  NEXUS CORPORATE SERVICES
-                </h3>
-              </div>
-              <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: "1.5" }}>
-                Financial Core Security Audit Division<br />
+              <h3 style={{ fontSize: "1.1rem", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.5rem" }}>
+                NEXUS CORPORATE SERVICES
+              </h3>
+              <p style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: "1.4" }}>
                 500 Fifth Avenue, Suite 4500<br />
                 New York, NY 10110, USA
               </p>
@@ -246,15 +228,15 @@ export default function InvoiceDetailPage(props: Props) {
               <span
                 style={{
                   fontSize: "0.75rem",
-                  fontWeight: 700,
+                  fontWeight: 600,
                   color: "var(--text-muted)",
                   textTransform: "uppercase",
-                  letterSpacing: "0.08em",
+                  letterSpacing: "0.05em",
                 }}
               >
-                Statement Ref
+                Invoice ID
               </span>
-              <h2 style={{ fontFamily: "var(--font-mono)", fontSize: "1.8rem", color: "var(--text-primary)", margin: "0.2rem 0", fontWeight: 700 }}>
+              <h2 style={{ fontFamily: "var(--font-mono)", fontSize: "1.5rem", color: "var(--text-primary)", margin: "0.2rem 0", fontWeight: 500 }}>
                 {invoice.id}
               </h2>
               <span
@@ -265,7 +247,7 @@ export default function InvoiceDetailPage(props: Props) {
                     ? "badge-pending"
                     : "badge-overdue"
                 }`}
-                style={{ marginTop: "0.35rem" }}
+                style={{ marginTop: "0.25rem" }}
               >
                 {invoice.status}
               </span>
@@ -277,50 +259,49 @@ export default function InvoiceDetailPage(props: Props) {
             style={{
               display: "grid",
               gridTemplateColumns: "1.2fr 0.8fr",
-              gap: "2.5rem",
-              marginBottom: "3rem",
+              gap: "2rem",
+              marginBottom: "2.5rem",
             }}
           >
             <div>
               <span
                 style={{
                   fontSize: "0.75rem",
-                  fontWeight: 700,
+                  fontWeight: 600,
                   color: "var(--text-muted)",
                   textTransform: "uppercase",
-                  letterSpacing: "0.08em",
+                  letterSpacing: "0.05em",
                   display: "block",
-                  marginBottom: "0.6rem",
+                  marginBottom: "0.5rem",
                 }}
               >
-                Prepared For
+                Bill To
               </span>
-              <strong style={{ fontSize: "1.05rem", color: "var(--text-primary)", display: "block", fontWeight: 700 }}>
+              <strong style={{ fontSize: "1rem", color: "var(--text-primary)", display: "block", fontWeight: 600 }}>
                 {invoice.clientName}
               </strong>
-              <p style={{ fontSize: "0.85rem", marginTop: "0.35rem", color: "var(--text-secondary)", lineHeight: "1.5" }}>
+              <p style={{ fontSize: "0.85rem", marginTop: "0.25rem", color: "var(--text-secondary)", lineHeight: "1.4" }}>
                 {invoice.clientAddress || "Corporate Registered HQ"}<br />
-                Contact: {invoice.clientEmail}
+                Email: {invoice.clientEmail}
               </p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               <div>
                 <span
                   style={{
                     fontSize: "0.72rem",
-                    fontWeight: 700,
+                    fontWeight: 600,
                     color: "var(--text-muted)",
                     textTransform: "uppercase",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.05em",
                     display: "block",
-                    marginBottom: "0.35rem",
+                    marginBottom: "0.3rem",
                   }}
                 >
                   Date Issued
                 </span>
-                <span style={{ fontSize: "0.9rem", color: "var(--text-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                  <Calendar size={14} style={{ color: "var(--text-muted)" }} />
+                <span style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: 500 }}>
                   {invoice.issueDate}
                 </span>
               </div>
@@ -329,18 +310,17 @@ export default function InvoiceDetailPage(props: Props) {
                 <span
                   style={{
                     fontSize: "0.72rem",
-                    fontWeight: 700,
+                    fontWeight: 600,
                     color: "var(--text-muted)",
                     textTransform: "uppercase",
-                    letterSpacing: "0.08em",
+                    letterSpacing: "0.05em",
                     display: "block",
-                    marginBottom: "0.35rem",
+                    marginBottom: "0.3rem",
                   }}
                 >
                   Due Date
                 </span>
-                <span style={{ fontSize: "0.9rem", color: "var(--text-primary)", fontWeight: 600, display: "flex", alignItems: "center", gap: "0.3rem" }}>
-                  <Calendar size={14} style={{ color: "var(--text-muted)" }} />
+                <span style={{ fontSize: "0.85rem", color: "var(--text-primary)", fontWeight: 500 }}>
                   {invoice.dueDate}
                 </span>
               </div>
@@ -350,19 +330,18 @@ export default function InvoiceDetailPage(props: Props) {
                   <span
                     style={{
                       fontSize: "0.72rem",
-                      fontWeight: 700,
+                      fontWeight: 600,
                       color: "var(--text-muted)",
                       textTransform: "uppercase",
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.05em",
                       display: "block",
-                      marginBottom: "0.35rem",
+                      marginBottom: "0.3rem",
                     }}
                   >
-                    Settled On
+                    Paid On
                   </span>
-                  <span style={{ fontSize: "0.85rem", color: "var(--color-success)", fontWeight: 700, display: "flex", alignItems: "center", gap: "0.4rem" }}>
-                    <CheckCircle size={15} />
-                    {new Date(invoice.paidAt).toLocaleDateString()} via Stripe Network
+                  <span style={{ fontSize: "0.85rem", color: "var(--color-success)", fontWeight: 600 }}>
+                    {new Date(invoice.paidAt).toLocaleDateString()}
                   </span>
                 </div>
               )}
@@ -370,37 +349,37 @@ export default function InvoiceDetailPage(props: Props) {
           </div>
 
           {/* Itemized Table */}
-          <div style={{ border: "1px solid rgba(255, 255, 255, 0.08)", borderRadius: "14px", overflow: "hidden", marginBottom: "2.5rem", background: "rgba(255,255,255,0.01)" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.9rem" }}>
+          <div style={{ border: "1px solid var(--border-card)", borderRadius: "6px", overflow: "hidden", marginBottom: "2rem" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left", fontSize: "0.85rem" }}>
               <thead>
-                <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid rgba(255, 255, 255, 0.08)" }}>
-                  <th style={{ padding: "1rem 1.25rem", fontWeight: 600, color: "var(--text-secondary)", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                    Service Charge Breakdown
+                <tr style={{ background: "rgba(255,255,255,0.02)", borderBottom: "1px solid var(--border-card)" }}>
+                  <th style={{ padding: "0.75rem 1rem", fontWeight: 500, color: "var(--text-secondary)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                    Description
                   </th>
-                  <th style={{ padding: "1rem 1.25rem", fontWeight: 600, color: "var(--text-secondary)", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.08em", textAlign: "center", width: "80px" }}>
+                  <th style={{ padding: "0.75rem 1rem", fontWeight: 500, color: "var(--text-secondary)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "center", width: "80px" }}>
                     Qty
                   </th>
-                  <th style={{ padding: "1rem 1.25rem", fontWeight: 600, color: "var(--text-secondary)", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.08em", textAlign: "right", width: "130px" }}>
+                  <th style={{ padding: "0.75rem 1rem", fontWeight: 500, color: "var(--text-secondary)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "right", width: "120px" }}>
                     Rate
                   </th>
-                  <th style={{ padding: "1rem 1.25rem", fontWeight: 600, color: "var(--text-secondary)", fontSize: "0.78rem", textTransform: "uppercase", letterSpacing: "0.08em", textAlign: "right", width: "150px" }}>
-                    Line Total
+                  <th style={{ padding: "0.75rem 1rem", fontWeight: 500, color: "var(--text-secondary)", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", textAlign: "right", width: "140px" }}>
+                    Amount
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {invoice.items.map((item, idx) => (
-                  <tr key={idx} style={{ borderBottom: idx === invoice.items.length - 1 ? "none" : "1px solid rgba(255, 255, 255, 0.05)" }}>
-                    <td style={{ padding: "1.25rem", fontWeight: 600, color: "var(--text-primary)" }}>
+                  <tr key={idx} style={{ borderBottom: idx === invoice.items.length - 1 ? "none" : "1px solid var(--border-card)" }}>
+                    <td style={{ padding: "1rem", color: "var(--text-primary)" }}>
                       {item.description}
                     </td>
-                    <td style={{ padding: "1.25rem", color: "var(--text-secondary)", textAlign: "center" }}>
+                    <td style={{ padding: "1rem", color: "var(--text-secondary)", textAlign: "center" }}>
                       {item.quantity}
                     </td>
-                    <td style={{ padding: "1.25rem", color: "var(--text-secondary)", textAlign: "right" }}>
+                    <td style={{ padding: "1rem", color: "var(--text-secondary)", textAlign: "right" }}>
                       ${item.rate.toLocaleString()}
                     </td>
-                    <td style={{ padding: "1.25rem", fontWeight: 700, color: "var(--text-primary)", textAlign: "right" }}>
+                    <td style={{ padding: "1rem", fontWeight: 500, color: "var(--text-primary)", textAlign: "right" }}>
                       ${(item.quantity * item.rate).toLocaleString()}
                     </td>
                   </tr>
@@ -411,28 +390,23 @@ export default function InvoiceDetailPage(props: Props) {
 
           {/* Totals Section */}
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <div style={{ width: "300px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.55rem 0", fontSize: "0.9rem" }}>
+            <div style={{ width: "240px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem" }}>
                 <span style={{ color: "var(--text-secondary)" }}>Subtotal:</span>
-                <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>${subtotal.toLocaleString()} USD</span>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.55rem 0", fontSize: "0.9rem" }}>
-                <span style={{ color: "var(--text-secondary)" }}>Stripe Processing:</span>
-                <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>$0.00 USD</span>
+                <span style={{ fontWeight: 500, color: "var(--text-primary)" }}>${subtotal.toLocaleString()}</span>
               </div>
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  padding: "0.9rem 0",
-                  borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-                  marginTop: "0.6rem",
+                  padding: "0.6rem 0",
+                  borderTop: "1px solid var(--border-card)",
+                  marginTop: "0.4rem",
                 }}
               >
-                <strong style={{ fontSize: "1rem", fontWeight: 700 }}>Total Invoiced:</strong>
-                <strong style={{ fontSize: "1.15rem", color: "var(--color-primary-hover)", fontWeight: 800, display: "flex", alignItems: "center" }}>
-                  <DollarSign size={18} style={{ marginRight: "-1px" }} />
-                  {invoice.amount.toLocaleString()} USD
+                <strong style={{ fontSize: "0.95rem", fontWeight: 600 }}>Total:</strong>
+                <strong style={{ fontSize: "0.95rem", color: "var(--text-primary)", fontWeight: 600 }}>
+                  ${invoice.amount.toLocaleString()} USD
                 </strong>
               </div>
             </div>
@@ -441,19 +415,19 @@ export default function InvoiceDetailPage(props: Props) {
           {/* Terms & compliance sign-off */}
           <div
             style={{
-              marginTop: "4.5rem",
-              borderTop: "1px solid rgba(255, 255, 255, 0.08)",
-              paddingTop: "1.75rem",
+              marginTop: "3rem",
+              borderTop: "1px solid var(--border-card)",
+              paddingTop: "1.5rem",
               fontSize: "0.75rem",
               color: "var(--text-muted)",
-              lineHeight: "1.6",
+              lineHeight: "1.5",
             }}
           >
-            <p style={{ fontWeight: 700, color: "var(--text-secondary)", marginBottom: "0.35rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              Nexus Corporate Services Compliance & Security Policy
+            <p style={{ fontWeight: 600, color: "var(--text-secondary)", marginBottom: "0.25rem" }}>
+              Payment Information
             </p>
             <p>
-              This invoice contains high-value cybersecurity and architectural review scopes. All payments settled via Stripe Credit Card elements are instant. Invoices are cryptographic proof of settlement, backed by decentralized compliance ledger logs. Incidents or queries regarding payment security should be escalated to Mr. Nakul (IT Management).
+              Please settle all invoice balances before their compliance due date. Standard credit card payments processed via the secure portal clear instantly. Receipts are issued automatically post-transaction clearing. For support, please reference the invoice ID and contact IT administration.
             </p>
           </div>
         </div>
