@@ -1,0 +1,251 @@
+{
+  "clients": [
+    {
+      "id": "client-acme",
+      "name": "Acme Corporation",
+      "email": "billing@acme.com",
+      "address": "123 Industrial Way, Suite A, New York, NY 10001"
+    },
+    {
+      "id": "client-globex",
+      "name": "Globex Corp",
+      "email": "billing@globex.com",
+      "address": "456 Innovation Blvd, Tech Center, San Francisco, CA 94107"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "INV-5492",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 100,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-05-21",
+      "items": [
+        {
+          "description": "pipes bil",
+          "quantity": 1,
+          "rate": 100
+        }
+      ],
+      "status": "Overdue"
+    },
+    {
+      "id": "INV-3538",
+      "clientName": "Globex Corp",
+      "clientEmail": "billing@globex.com",
+      "clientAddress": "456 Innovation Blvd, Tech Center, San Francisco, CA 94107",
+      "amount": 100,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Compter Bills Of Staff ",
+          "quantity": 1,
+          "rate": 100
+        }
+      ],
+      "status": "Paid",
+      "paidAt": "2026-05-29T05:37:34.251Z",
+      "stripePaymentIntentId": "pi_mock_35wd6g39yzt"
+    },
+    {
+      "id": "INV-7246",
+      "clientName": "Globex Corp",
+      "clientEmail": "billing@globex.com",
+      "clientAddress": "456 Innovation Blvd, Tech Center, San Francisco, CA 94107",
+      "amount": 100,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Staff Computer Bill",
+          "quantity": 1,
+          "rate": 100
+        }
+      ],
+      "status": "Paid",
+      "paidAt": "2026-05-29T05:35:00.317Z",
+      "stripePaymentIntentId": "pi_mock_73fq0nwj28u"
+    },
+    {
+      "id": "INV-4844",
+      "clientName": "Globex Corp",
+      "clientEmail": "billing@globex.com",
+      "clientAddress": "456 Innovation Blvd, Tech Center, San Francisco, CA 94107",
+      "amount": 100,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Piples Bill",
+          "quantity": 1,
+          "rate": 100
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "INV-3701",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 150,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Consulting Fees",
+          "quantity": 1,
+          "rate": 150
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "INV-8539",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 10000,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Security Risk Assessment Phase 3",
+          "quantity": 2,
+          "rate": 5000
+        }
+      ],
+      "status": "Paid",
+      "paidAt": "2026-05-29T04:21:30.760Z",
+      "stripePaymentIntentId": "pi_mock_80252g4y2h6"
+    },
+    {
+      "id": "INV-9604",
+      "clientName": "Manisha Kumari",
+      "clientEmail": "manishakumari200307@gmail.com",
+      "clientAddress": "Uttrakhand",
+      "amount": 10,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "Pay till 28 may",
+          "quantity": 1,
+          "rate": 10
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "INV-1894",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 20,
+      "currency": "USD",
+      "issueDate": "2026-05-29",
+      "dueDate": "2026-06-28",
+      "items": [
+        {
+          "description": "12 batteries",
+          "quantity": 2,
+          "rate": 10
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "INV-4535",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 15000,
+      "currency": "USD",
+      "issueDate": "2026-05-28",
+      "dueDate": "2026-06-27",
+      "items": [
+        {
+          "description": "Advanced Concurrency Security Audit",
+          "quantity": 2,
+          "rate": 7500
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "INV-8901",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 15000,
+      "currency": "USD",
+      "status": "Paid",
+      "issueDate": "2026-05-15",
+      "dueDate": "2026-06-15",
+      "items": [
+        {
+          "description": "Nexus Security Review & Penetration Testing",
+          "quantity": 1,
+          "rate": 15000
+        }
+      ],
+      "paidAt": "2026-05-29T05:31:30.335Z",
+      "stripePaymentIntentId": "pi_mock_v2jz71ookc"
+    },
+    {
+      "id": "INV-4412",
+      "clientName": "Globex Corp",
+      "clientEmail": "billing@globex.com",
+      "clientAddress": "456 Innovation Blvd, Tech Center, San Francisco, CA 94107",
+      "amount": 32500,
+      "currency": "USD",
+      "status": "Paid",
+      "issueDate": "2026-05-01",
+      "dueDate": "2026-05-31",
+      "items": [
+        {
+          "description": "Cloud Architecture Design & Migration Services",
+          "quantity": 1,
+          "rate": 25000
+        },
+        {
+          "description": "Kubernetes Hardening & IAM Setup",
+          "quantity": 1,
+          "rate": 7500
+        }
+      ],
+      "paidAt": "2026-05-20T14:32:00Z",
+      "stripePaymentIntentId": "pi_mock_12345abcdef"
+    },
+    {
+      "id": "INV-7203",
+      "clientName": "Acme Corporation",
+      "clientEmail": "billing@acme.com",
+      "clientAddress": "123 Industrial Way, Suite A, New York, NY 10001",
+      "amount": 5200,
+      "currency": "USD",
+      "status": "Paid",
+      "issueDate": "2026-04-10",
+      "dueDate": "2026-05-10",
+      "items": [
+        {
+          "description": "Prodesk IT Vulnerability Advisory Service",
+          "quantity": 1,
+          "rate": 5200
+        }
+      ],
+      "paidAt": "2026-05-29T05:30:38.402Z",
+      "stripePaymentIntentId": "pi_mock_cr3x7jy8ln"
+    }
+  ]
+}
