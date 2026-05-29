@@ -30,7 +30,9 @@
           "rate": 100
         }
       ],
-      "status": "Overdue"
+      "status": "Paid",
+      "paidAt": "2026-05-29T09:31:20.772Z",
+      "stripePaymentIntentId": "pi_mock_1vz42f7ubaa"
     },
     {
       "id": "INV-3538",
